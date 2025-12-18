@@ -14,11 +14,11 @@ CREATE TABLE IF NOT EXISTS "bookInfo" (
 CREATE TABLE IF NOT EXISTS "inventory" (
     "id" INTEGER,
     "bookID" INTEGER,
-    "acquireDate", --When it was first brought to the library
+    "acquireDate" DATETIME DEFAULT CURRENT_TIMESTAMP, --When it was first brought to the library
     
-    PRIMARY KEY ("id")
-    FOREIGN KEY ("bookID") REFERENCES "bookInfo"("id"),
-)
+    PRIMARY KEY ("id"),
+    FOREIGN KEY ("bookID") REFERENCES "bookInfo"("id")
+);
 
 -- This table is for storing information on a library member
 CREATE TABLE IF NOT EXISTS "member" (
@@ -27,37 +27,37 @@ CREATE TABLE IF NOT EXISTS "member" (
     "surname" TEXT,
     
     PRIMARY KEY ("id")
-)
+);
 
 -- Record of book exchange - Taking (borrowing) from the library
 CREATE TABLE IF NOT EXISTS "excTake" (
     "id" INTEGER,
     "memberID" INTEGER,
     "invID" INTEGER,
-    "date",
+    "date" DATETIME DEFAULT CURRENT_TIMESTAMP,
     
-    PRIMARY KEY ("id")
+    PRIMARY KEY ("id"),
     FOREIGN KEY ("invID") REFERENCES "inventory"("id"),
     FOREIGN KEY ("memberID") REFERENCES "member"("id")
-)
+);
 -- Record of book exchange - Returning to the library
 CREATE TABLE IF NOT EXISTS "excReturn" (
     "id" INTEGER,
     "memberID" INTEGER,
     "invID" INTEGER,
-    "date",
+    "date" DATETIME DEFAULT CURRENT_TIMESTAMP,
     
-    PRIMARY KEY ("id")
+    PRIMARY KEY ("id"),
     FOREIGN KEY ("invID") REFERENCES "inventory"("id"),
     FOREIGN KEY ("memberID") REFERENCES "member"("id")
-)
+);
 
 -- Each book borrowing process initialised by a member. Links to taking and (hopefully) the returning tables
 CREATE TABLE IF NOT EXISTS "borrow" (
     "id" INTEGER,
     "invID" INTEGER,
-    "memberID" INTEGER,
-    "takeID" INTEGER,
+    "memberID" INTEGER, -- id of the member who *initially borrowed* the book. (It may also be returned by another member).
+    "takeID" INTEGER,   -- I know it is kinda redundant
     "returnID" INTEGER,
 
     PRIMARY KEY ("id", "takeID", "returnID")
@@ -65,4 +65,4 @@ CREATE TABLE IF NOT EXISTS "borrow" (
     FOREIGN KEY ("memberID") REFERENCES "member"("id"),
     FOREIGN KEY ("takeID") REFERENCES "excTake"("id"),
     FOREIGN KEY ("returnID") REFERENCES "excReturn"("id")
-)
+);
