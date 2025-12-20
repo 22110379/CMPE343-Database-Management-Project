@@ -6,10 +6,10 @@ CREATE TABLE IF NOT EXISTS "bookInfo" (
     "print" INTEGER, -- Print number
     "year" INTEGER,  -- Which year it was printed in
     "language" TEXT,
-    "genres" INTEGER, 
+    "genre" INTEGER, 
     
     PRIMARY KEY ("id"),
-    FOREIGN KEY ("genres") REFERENCES "genres"("id")
+    FOREIGN KEY ("genre") REFERENCES "genres"("id")
 
 );
 
