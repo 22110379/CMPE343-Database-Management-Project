@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS "inventory" (
 
 -- This table is for storing information on a library member
 CREATE TABLE IF NOT EXISTS "member" (
-    "id" INTEGER NOT NULL,
+    "id" SERIAL NOT NULL,
     "name" TEXT,
     "surname" TEXT,
     
@@ -52,8 +52,8 @@ CREATE TABLE IF NOT EXISTS "excTake" (
 -- Record of book exchange - Returning to the library
 CREATE TABLE IF NOT EXISTS "excReturn" (
     "id" INTEGER NOT NULL,
-    "memberID" INTEGER,
-    "invID" INTEGER,
+    "memberID" INTEGER NOT NULL,
+    "invID" INTEGER NOT NULL,
     "date" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     
     PRIMARY KEY ("id"),
