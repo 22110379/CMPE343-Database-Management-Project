@@ -1,29 +1,30 @@
 -- This table stores the information about the books (Not to be confused with the inventory of the library)
+
+CREATE TABLE IF NOT EXISTS "genres" (
+
+    "id" INTEGER NOT NULL,
+    "name" TEXT NOT NULL UNIQUE, 
+
+    SERIAL PRIMARY KEY ("id")
+);
+
 CREATE TABLE IF NOT EXISTS "bookInfo" (
-    "id" INTEGER,
-    "title" TEXT,
-    "author" TEXT,
+    "id" INTEGER NOT NULL,
+    "title" TEXT NOT NULL,
+    "author" TEXT NOT NULL,
     "print" INTEGER, -- Print number
     "year" INTEGER,  -- Which year it was printed in
-    "language" TEXT,
+    "language" TEXT NOT NULL,
     "genre" INTEGER, 
     
-    PRIMARY KEY ("id"),
+    SERIAL PRIMARY KEY ("id"),
     FOREIGN KEY ("genre") REFERENCES "genres"("id")
 
 );
 
-CREATE TABLE IF NOT EXISTS "genres" (
-
-    "id" INTEGER,
-    "name" TEXT NOT NULL UNIQUE, 
-
-    PRIMARY KEY ("id")
-);
-
 -- This table stores information about the books in the library's inventory. 
 CREATE TABLE IF NOT EXISTS "inventory" (
-    "id" INTEGER,
+    "id" INTEGER NOT NULL,
     "bookID" INTEGER,
     "acquireDate" DATETIME DEFAULT CURRENT_TIMESTAMP, --When it was first brought to the library
     
@@ -33,7 +34,7 @@ CREATE TABLE IF NOT EXISTS "inventory" (
 
 -- This table is for storing information on a library member
 CREATE TABLE IF NOT EXISTS "member" (
-    "id" INTEGER,
+    "id" INTEGER NOT NULL,
     "name" TEXT,
     "surname" TEXT,
     
@@ -42,7 +43,7 @@ CREATE TABLE IF NOT EXISTS "member" (
 
 -- Record of book exchange - Taking (borrowing) from the library
 CREATE TABLE IF NOT EXISTS "excTake" (
-    "id" INTEGER,
+    "id" INTEGER NOT NULL,
     "memberID" INTEGER,
     "invID" INTEGER,
     "date" DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -53,7 +54,7 @@ CREATE TABLE IF NOT EXISTS "excTake" (
 );
 -- Record of book exchange - Returning to the library
 CREATE TABLE IF NOT EXISTS "excReturn" (
-    "id" INTEGER,
+    "id" INTEGER NOT NULL,
     "memberID" INTEGER,
     "invID" INTEGER,
     "date" DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -65,13 +66,13 @@ CREATE TABLE IF NOT EXISTS "excReturn" (
 
 -- Each book borrowing process initialised by a member. Links to taking and (hopefully) the returning tables
 CREATE TABLE IF NOT EXISTS "borrow" (
-    "id" INTEGER,
+    "id" INTEGER NOT NULL,
     "invID" INTEGER,
     "memberID" INTEGER, -- id of the member who *initially borrowed* the book. (It may also be returned by another member).
     "takeID" INTEGER,   -- I know it is kinda redundant
     "returnID" INTEGER,
 
-    PRIMARY KEY ("id", "takeID", "returnID")
+    PRIMARY KEY ("id"),
     FOREIGN KEY ("invID") REFERENCES "inventory"("id"),
     FOREIGN KEY ("memberID") REFERENCES "member"("id"),
     FOREIGN KEY ("takeID") REFERENCES "excTake"("id"),
