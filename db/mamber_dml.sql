@@ -1,4 +1,3 @@
--- member_dml.sql
 INSERT INTO "member" ("name", "surname") VALUES
 ('Mohammed', 'Alharthi'),
 ('Ahmed',    'Alqahtani'),
