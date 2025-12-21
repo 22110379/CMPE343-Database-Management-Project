@@ -25,6 +25,3 @@ Thumbs.db
 *.pdf
 
 # https://github.com/DataWithBaraa/sql-data-warehouse-project/blob/main/.gitignore
-
-# Ignore prototype folder to not commit unused stuff
-.prototype/
