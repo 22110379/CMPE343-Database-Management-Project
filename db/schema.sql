@@ -21,11 +21,10 @@ CREATE TABLE IF NOT EXISTS "bookInfo" (
 
 -- This table stores information about the books in the library's inventory. 
 CREATE TABLE IF NOT EXISTS "inventory" (
-    "id" INTEGER NOT NULL,
+    "id" SERIAL PRIMARY KEY,
     "bookID" INTEGER,
     "acquireDate" TIMESTAMP DEFAULT CURRENT_TIMESTAMP, --When it was first brought to the library
     
-    PRIMARY KEY ("id"),
     FOREIGN KEY ("bookID") REFERENCES "bookInfo"("id")
 );
 
