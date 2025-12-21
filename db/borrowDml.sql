@@ -16,3 +16,15 @@ INSERT INTO "excReturn" ("id", "memberID", "invID", "returnDate") VALUES
 (3, 17, 3, '2025-12-28 11:00'),
 (4, 18, 11, '2025-12-28 16:45'),
 (5, 19, 14, '2025-12-29 10:00');
+
+INSERT INTO "borrow" ("id", "invID", "memberID", "takeID", "returnID") VALUES
+(21, 1, 1, 1),
+(24, 2, 2, 2),
+(45, 3, 3, NULL),
+(30, 4, 4, NULL),
+(52, 5, 5, NULL),
+(3, 17, 6, 3),
+(11, 18, 7, 4),
+(14, 19, 8, 5),
+(29, 20, 9, NULL),
+(34, 17, 10, NULL);
