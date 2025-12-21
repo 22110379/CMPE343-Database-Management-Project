@@ -1,15 +1,14 @@
 -- This table stores the information about the books (Not to be confused with the inventory of the library)
 
 CREATE TABLE IF NOT EXISTS "genres" (
-
-    "id" INTEGER NOT NULL,
+    "id" INTEGER,
     "name" TEXT NOT NULL UNIQUE, 
 
     SERIAL PRIMARY KEY ("id")
 );
 
 CREATE TABLE IF NOT EXISTS "bookInfo" (
-    "id" INTEGER NOT NULL,
+    "id" INTEGER,
     "title" TEXT NOT NULL,
     "author" TEXT NOT NULL,
     "print" INTEGER, -- Print number
