@@ -1,14 +1,13 @@
 -- This table stores the information about the books (Not to be confused with the inventory of the library)
 
 CREATE TABLE IF NOT EXISTS "genres" (
-    "id" INTEGER,
-    "name" TEXT NOT NULL UNIQUE, 
+    "id" SERIAL PRIMARY KEY,
+    "name" TEXT NOT NULL UNIQUE
 
-    SERIAL PRIMARY KEY ("id")
 );
 
 CREATE TABLE IF NOT EXISTS "bookInfo" (
-    "id" INTEGER,
+    "id" SERIAL PRIMARY KEY,
     "title" TEXT NOT NULL,
     "author" TEXT NOT NULL,
     "print" INTEGER, -- Print number
@@ -16,7 +15,6 @@ CREATE TABLE IF NOT EXISTS "bookInfo" (
     "language" TEXT NOT NULL,
     "genre" INTEGER, 
     
-    SERIAL PRIMARY KEY ("id"),
     FOREIGN KEY ("genre") REFERENCES "genres"("id")
 
 );
@@ -25,7 +23,7 @@ CREATE TABLE IF NOT EXISTS "bookInfo" (
 CREATE TABLE IF NOT EXISTS "inventory" (
     "id" INTEGER NOT NULL,
     "bookID" INTEGER,
-    "acquireDate" DATETIME DEFAULT CURRENT_TIMESTAMP, --When it was first brought to the library
+    "acquireDate" TIMESTAMP DEFAULT CURRENT_TIMESTAMP, --When it was first brought to the library
     
     PRIMARY KEY ("id"),
     FOREIGN KEY ("bookID") REFERENCES "bookInfo"("id")
@@ -45,7 +43,7 @@ CREATE TABLE IF NOT EXISTS "excTake" (
     "id" INTEGER NOT NULL,
     "memberID" INTEGER,
     "invID" INTEGER,
-    "date" DATETIME DEFAULT CURRENT_TIMESTAMP,
+    "date" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     
     PRIMARY KEY ("id"),
     FOREIGN KEY ("invID") REFERENCES "inventory"("id"),
@@ -56,7 +54,7 @@ CREATE TABLE IF NOT EXISTS "excReturn" (
     "id" INTEGER NOT NULL,
     "memberID" INTEGER,
     "invID" INTEGER,
-    "date" DATETIME DEFAULT CURRENT_TIMESTAMP,
+    "date" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     
     PRIMARY KEY ("id"),
     FOREIGN KEY ("invID") REFERENCES "inventory"("id"),
