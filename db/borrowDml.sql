@@ -1,4 +1,4 @@
-INSERT INTO "excTake" ("id", "memberID", "invID", "takeDate") VALUES
+INSERT INTO "excTake" ("id", "memberID", "invID", "date") VALUES
 (1, 1, 21, '2025-12-22 10:15'),
 (2, 2, 24, '2025-12-22 14:30'),
 (3, 3, 45, '2025-12-23 09:45'),
@@ -10,14 +10,14 @@ INSERT INTO "excTake" ("id", "memberID", "invID", "takeDate") VALUES
 (9, 20, 29, '2025-12-26 12:30'),
 (10, 17, 34, '2025-12-26 17:00');
 
-INSERT INTO "excReturn" ("id", "memberID", "invID", "returnDate") VALUES
+INSERT INTO "excReturn" ("id", "memberID", "invID", "date") VALUES
 (1, 1, 21, '2025-12-27 09:00'),
 (2, 2, 24, '2025-12-27 14:10'),
 (3, 17, 3, '2025-12-28 11:00'),
 (4, 18, 11, '2025-12-28 16:45'),
 (5, 19, 14, '2025-12-29 10:00');
 
-INSERT INTO "borrow" ("id", "invID", "memberID", "takeID", "returnID") VALUES
+INSERT INTO "borrow" ("invID", "memberID", "takeID", "returnID") VALUES
 (21, 1, 1, 1),
 (24, 2, 2, 2),
 (45, 3, 3, NULL),

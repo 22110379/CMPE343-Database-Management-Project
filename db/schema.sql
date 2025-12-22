@@ -13,10 +13,10 @@ CREATE TABLE IF NOT EXISTS "bookInfo" (
     "print" INTEGER, -- Print number
     "year" INTEGER,  -- Which year it was printed in
     "language" TEXT NOT NULL,
-    "genre" INTEGER, 
+    "genres" INTEGER, 
     
     PRIMARY KEY ("id"),
-    FOREIGN KEY ("genre") REFERENCES "genres"("id")
+    FOREIGN KEY ("genres") REFERENCES "genres"("id")
 
 );
 
@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS "member" (
 
 -- Record of book exchange - Taking (borrowing) from the library
 CREATE TABLE IF NOT EXISTS "excTake" (
-    "id" INTEGER NOT NULL,
+    "id" SERIAL NOT NULL,
     "memberID" INTEGER,
     "invID" INTEGER,
     "date" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -52,7 +52,7 @@ CREATE TABLE IF NOT EXISTS "excTake" (
 );
 -- Record of book exchange - Returning to the library
 CREATE TABLE IF NOT EXISTS "excReturn" (
-    "id" INTEGER NOT NULL,
+    "id" SERIAL NOT NULL,
     "memberID" INTEGER NOT NULL,
     "invID" INTEGER NOT NULL,
     "date" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -64,7 +64,7 @@ CREATE TABLE IF NOT EXISTS "excReturn" (
 
 -- Each book borrowing process initialised by a member. Links to taking and (hopefully) the returning tables
 CREATE TABLE IF NOT EXISTS "borrow" (
-    "id" INTEGER NOT NULL,
+    "id" SERIAL NOT NULL,
     "invID" INTEGER,
     "memberID" INTEGER, -- id of the member who *initially borrowed* the book. (It may also be returned by another member).
     "takeID" INTEGER,   -- I know it is kinda redundant
