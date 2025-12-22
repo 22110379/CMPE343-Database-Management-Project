@@ -76,3 +76,82 @@ WHERE r.date IS NOT NULL
   AND t.date IS NOT NULL
   AND r.date > t.date + INTERVAL '14 days'
 ORDER BY (r.date - t.date) DESC;
+
+-- 8) Lists each book and how many times it has been borrowed by somebody.
+SELECT
+bi.id AS book_id,
+bi.title,
+COUNT(b.id) AS borrow_count
+FROM "bookInfo" bi
+LEFT JOIN "inventory" i ON i."bookID" = bi.id
+LEFT JOIN "borrow" b ON b."invID" = i.id
+GROUP BY bi.id, bi.title
+ORDER BY borrow_count DESC;
+
+-- 9) Average print year
+SELECT AVG(year) AS avg_print_year
+FROM "bookInfo"
+WHERE year IS NOT NULL;
+
+--10) Average print year per genre
+SELECT g.name AS genre_name,
+AVG(b.year) AS avg_print_year
+FROM "bookInfo" b
+JOIN genres g ON b.genres = g.id
+WHERE b.year IS NOT null
+GROUP BY g.id, g.name;
+
+--11) Average times a book has been borrowed
+SELECT 
+AVG(borrow_count) AS avg_borrow_per_book
+FROM(
+  SELECT COUNT(br.id) AS borrow_count
+  FROM "inventory" i
+  LEFT JOIN "borrow" br ON br."invID" = i.id
+  GROUP BY i.id
+);
+
+--12)Average days books has been borrowed
+SELECT bi.title,
+AVG(
+  (r.date - t.date)
+) AS avg_borrow_days
+FROM "borrow" b
+JOIN "excTake" t ON b."takeID" = t.id
+JOIN "excReturn" r ON b."returnID" = r.id
+JOIN "inventory" i ON b."invID" = i.id
+JOIN "bookInfo" bi ON i."bookID" = bi.id
+GROUP BY bi.id, bi.title;
+
+--13)How many days, on average, did each members borrow a book?
+SELECT 
+m.id,
+m.name,
+m.surname,
+AVG((r.date-t.date))AS avg_borrow_days
+FROM "member" m 
+JOIN "borrow" b ON b."memberID" = m.id
+JOIN "excTake" t ON b."takeID" = t.id
+JOIN "excReturn" r ON b."returnID" = r.id
+GROUP BY m.id, m.name, m.surname;
+
+--14)The average retention period for returned books.
+SELECT 
+AVG((r.date-t.date)) AS avg_borrow_days
+FROM "borrow" b
+JOIN "excTake" t ON b."takeID" = t.id
+JOIN "excReturn" r ON b."returnID"= r.id;
+
+--15)Average late return time for members who have returned at least one book.
+SELECT
+m.id,
+m.name,
+m.surname,
+AVG((r.date-t.date)) AS avg_return_delay_days
+FROM "member" m
+JOIN "borrow" b ON b."memberID" = m.id
+JOIN "excTake" t ON b."takeID" = t.id
+JOIN "excReturn" r ON b."returnID" = r.id
+GROUP BY m.id, m.name, m.surname
+HAVING COUNT(b.id) >= 1
+ORDER BY avg_return_delay_days DESC;
