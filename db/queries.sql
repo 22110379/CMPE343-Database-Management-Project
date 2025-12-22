@@ -10,13 +10,13 @@ INNER JOIN "bookInfo" ON "inventory"."bookID" = "bookInfo"."id"
 GROUP BY "title";
 
 
-
 -- 3) List of every book that the library has more than one of.
 SELECT "title", count("bookID") AS count
 FROM "inventory" 
 INNER JOIN "bookInfo" ON "inventory"."bookID" = "bookInfo"."id"
 GROUP BY "title"
 HAVING COUNT("bookID") > 1;
+
 
 -- 4) List of every member and how many books they have borrowed.
 SELECT
@@ -37,18 +37,35 @@ LEFT JOIN "borrow" ON "memberID" = member.id
 WHERE borrow.id IS NULL;
 
 
--- 6) Lists all the time a book has been borrowed and returned after more than 2 weeks
-SELECT
-  b.id                              AS borrow_id,
-  m.id                              AS member_id,
+-- 6) This lists all the the times where a book has been borrowed and how long it has been borrowed for.
+  b.id AS borrow_id,
+  m.id AS member_id,
   m.name,
   m.surname,
-  bi.id                             AS book_id,
+  bi.id           AS book_id,
   bi.title,
-  t.date                            AS take_date,
-  r.date                            AS return_date,
-  (r.date - t.date)                 AS duration,
-  EXTRACT(EPOCH FROM (r.date - t.date))/86400 AS duration_days
+  t.date             AS take_date,
+  r.date             AS return_date,
+  (r.date - t.date)  AS duration
+FROM "borrow" b
+LEFT JOIN "member" m     ON b."memberID" = m.id
+LEFT JOIN "excTake" t    ON b."takeID"   = t.id
+LEFT JOIN "excReturn" r  ON b."returnID" = r.id
+LEFT JOIN "inventory" i  ON b."invID"    = i.id
+LEFT JOIN "bookInfo" bi  ON i."bookID"   = bi.id
+ORDER BY (r.date - t.date) DESC;
+
+-- 7) Lists all the times a book has been borrowed and returned after more than 2 weeks
+SELECT
+  b.id AS borrow_id,
+  m.id AS member_id,
+  m.name,
+  m.surname,
+  bi.id           AS book_id,
+  bi.title,
+  t.date             AS take_date,
+  r.date             AS return_date,
+  (r.date - t.date)  AS duration
 FROM "borrow" b
 LEFT JOIN "member" m     ON b."memberID" = m.id
 LEFT JOIN "excTake" t    ON b."takeID"   = t.id
