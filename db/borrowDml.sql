@@ -28,6 +28,3 @@ INSERT INTO "borrow" ("id", "invID", "memberID", "takeID", "returnID") VALUES
 (14, 19, 8, 5),
 (29, 20, 9, NULL),
 (34, 17, 10, NULL);
-
-
-

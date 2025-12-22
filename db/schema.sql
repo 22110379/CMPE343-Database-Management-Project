@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS "genres" (
 );
 
 CREATE TABLE IF NOT EXISTS "bookInfo" (
-    "id" SERIAL PRIMARY KEY,
+    "id" SERIAL,
     "title" TEXT NOT NULL,
     "author" TEXT NOT NULL,
     "print" INTEGER, -- Print number
@@ -15,16 +15,18 @@ CREATE TABLE IF NOT EXISTS "bookInfo" (
     "language" TEXT NOT NULL,
     "genre" INTEGER, 
     
+    PRIMARY KEY ("id"),
     FOREIGN KEY ("genre") REFERENCES "genres"("id")
 
 );
 
--- This table stores information about the books in the library's inventory. 
+-- This table stores information about each book in the library's inventory.
 CREATE TABLE IF NOT EXISTS "inventory" (
-    "id" SERIAL PRIMARY KEY,
+    "id" SERIAL,
     "bookID" INTEGER,
-    "acquireDate" TIMESTAMP DEFAULT CURRENT_TIMESTAMP, --When it was first brought to the library
+    "acquireDate" DATE DEFAULT CURRENT_DATE, --When it was first brought to the library
     
+    PRIMARY KEY ("id"),
     FOREIGN KEY ("bookID") REFERENCES "bookInfo"("id")
 );
 
