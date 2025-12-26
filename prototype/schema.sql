@@ -1,7 +1,7 @@
 -- This table stores the information about the books (Not to be confused with the inventory of the library)
 CREATE TABLE IF NOT EXISTS "bookInfo" (
     "id" INTEGER,
-    "title" TEXT NOT NULL,
+    "title" TEXT,
     "author" TEXT,
     "print" INTEGER, -- Print number
     "year" INTEGER,  -- Which year it was printed in
@@ -34,8 +34,9 @@ CREATE TABLE IF NOT EXISTS "inventory" (
 -- This table is for storing information on a library member
 CREATE TABLE IF NOT EXISTS "member" (
     "id" INTEGER,
-    "name" TEXT NOT NULL,
-    "surname" TEXT NOT NULL,    
+    "name" TEXT,
+    "surname" TEXT,
+    
     PRIMARY KEY ("id")
 );
 
@@ -62,13 +63,14 @@ CREATE TABLE IF NOT EXISTS "excReturn" (
     FOREIGN KEY ("memberID") REFERENCES "member"("id")
 );
 
--- Each book borrowing process initialised by a member. Links to excTake and (hopefully) the returning tables
+-- Each book borrowing process initialised by a member. Links to taking and (hopefully) the returning tables
 CREATE TABLE IF NOT EXISTS "borrow" (
     "id" INTEGER,
     "invID" INTEGER,
     "memberID" INTEGER, -- id of the member who *initially borrowed* the book. (It may also be returned by another member).
     "takeID" INTEGER,   -- I know it is kinda redundant
     "returnID" INTEGER,
+
     PRIMARY KEY ("id", "takeID", "returnID")
     FOREIGN KEY ("invID") REFERENCES "inventory"("id"),
     FOREIGN KEY ("memberID") REFERENCES "member"("id"),
